@@ -12,13 +12,14 @@ import { Textarea } from "../ui/textarea";
 function CommonForm({
   formControls,
   formData,
-  setDormData,
+  setFormData,
   onSubmit,
   buttonText,
 }) {
   function renderInputByComponentType(getControlItem) {
     let element = null;
     const value = formData[getControlItem.name || ""];
+
     switch (getControlItem.componentType) {
       case "input":
         element = (
@@ -29,7 +30,7 @@ function CommonForm({
             type={getControlItem.type}
             value={value}
             onChange={(event) =>
-              setDormData({
+              setFormData({
                 ...formData,
                 [getControlItem.name]: event.target.value,
               })
@@ -39,10 +40,15 @@ function CommonForm({
         break;
       case "select":
         element = (
-          <Select value={value} onValueChange={(value)= setDormData({
-            ...formData,
-            [getControlItem.name] : value
-          })}>
+          <Select
+            value={value}
+            onValueChange = {
+                (value)=>setFormData({
+                    ...formData,
+                    [getControlItem.name]: value
+                })
+            }
+          >
             <SelectTrigger className={"w-full"}>
               <SelectValue placeholder={getControlItem.placeholder} />
             </SelectTrigger>
@@ -66,31 +72,31 @@ function CommonForm({
             id={getControlItem.name}
             value={value}
             onChange={(event) =>
-                setDormData({
-                  ...formData,
-                  [getControlItem.name]: event.target.value,
-                })
-              }
+              setFormData({
+                ...formData,
+                [getControlItem.name]: event.target.value,
+              })
+            }
           />
         );
         break;
 
       default:
         element = (
-            <Input
-              name={getControlItem.name}
-              placeholder={getControlItem.placeholder}
-              id={getControlItem.name}
-              type={getControlItem.type}
-              value={value}
-              onChange={(event) =>
-                setDormData({
-                  ...formData,
-                  [getControlItem.name]: event.target.value,
-                })
-              }
-            />
-          );
+          <Input
+            name={getControlItem.name}
+            placeholder={getControlItem.placeholder}
+            id={getControlItem.name}
+            type={getControlItem.type}
+            value={value}
+            onChange={(event) =>
+              setFormData({
+                ...formData,
+                [getControlItem.name]: event.target.value,
+              })
+            }
+          />
+        );
         break;
     }
     return element;
